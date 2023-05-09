@@ -5,12 +5,12 @@ output "eks_cluster_id" {
 
 output "eks_cluster_arn" {
   description = "Amazon EKS Cluster ARN"
-  value       = "arn:${data.aws_partition.current.partition}:eks:${var.region}:${data.aws_caller_identity.current.account_id}:cluster/${module.eks_blueprints.eks_cluster_id}"
+  value       = "arn:${data.aws_partition.current.partition}:eks:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:cluster/${module.eks_blueprints.eks_cluster_id}"
 }
 
 output "eks_cluster_nodegroup" {
   description = "Amazon EKS Cluster noode group ARN"
-  value       = "arn:${data.aws_partition.current.partition}:eks:${var.region}:${data.aws_caller_identity.current.account_id}:nodegroup/${module.eks_blueprints.eks_cluster_id}"
+  value       = "arn:${data.aws_partition.current.partition}:eks:${data.aws_region.current.id}:${data.aws_caller_identity.current.account_id}:nodegroup/${module.eks_blueprints.eks_cluster_id}"
 }
 
 output "eks_cluster_nodegroup_name" {

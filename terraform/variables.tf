@@ -22,7 +22,7 @@ variable "eks_role_arns" {
   description = "Additional IAM roles that should be added to the AWS auth config map"
 }
 
-variable "region" {
+variable "aws_region" {
   type    = string
   default = "us-east-2"
 }

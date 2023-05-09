@@ -56,8 +56,8 @@ resource "aws_iam_policy" "carts_dynamo" {
       "Effect": "Allow",
       "Action": "dynamodb:*",
       "Resource": [
-        "arn:aws:dynamodb:${var.region}:${local.aws_account_id}:table/${aws_dynamodb_table.carts.name}",
-        "arn:aws:dynamodb:${var.region}:${local.aws_account_id}:table/${aws_dynamodb_table.carts.name}/index/*"
+        "arn:aws:dynamodb:${data.aws_region.current.id}:${local.aws_account_id}:table/${aws_dynamodb_table.carts.name}",
+        "arn:aws:dynamodb:${data.aws_region.current.id}:${local.aws_account_id}:table/${aws_dynamodb_table.carts.name}/index/*"
       ]
     }
   ]

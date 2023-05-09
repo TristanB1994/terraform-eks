@@ -24,3 +24,8 @@ output "blueprints_addons" {
   value       = module.cluster.blueprints_addons
   description = "Information about EKS blueprints addons installed"
 }
+
+output "current_region" {
+  description = "current region"
+  value       = data.aws_region.current.id
+}

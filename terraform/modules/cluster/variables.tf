@@ -30,8 +30,3 @@ variable "tags" {
   description = "AWS tags that will be applied to all resources"
   default     = {}
 }
-
-variable "region" {
-  type    = string
-  default = "us-east-2"
-}

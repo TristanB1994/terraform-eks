@@ -1,7 +1,7 @@
 locals {
-  default_mng_min  = 2
-  default_mng_max  = 6
-  default_mng_size = 2
+  default_mng_min  = 1
+  default_mng_max  = 3
+  default_mng_size = 1
 }
 
 module "eks_blueprints" {
@@ -94,7 +94,8 @@ module "eks_blueprints" {
   managed_node_groups = {
     mg_5 = {
       node_group_name = "managed-ondemand"
-      instance_types  = ["t3.medium"]
+      instance_types  = ["t3.large"]
+      capacity_type   = "SPOT"
       subnet_ids      = local.private_subnet_ids
       min_size        = local.default_mng_min
       max_size        = local.default_mng_max
@@ -111,11 +112,12 @@ module "eks_blueprints" {
 
     system = {
       node_group_name = "managed-system"
-      instance_types  = ["t3.medium"]
+      instance_types  = ["t3.large"]
+      capacity_type   = "SPOT"
       subnet_ids      = local.primary_private_subnet_id
-      min_size        = 1
-      max_size        = 2
-      desired_size    = 1
+      min_size        = local.default_mng_min
+      max_size        = local.default_mng_max
+      desired_size    = local.default_mng_size
 
       ami_type        = "AL2_x86_64"
       release_version = var.ami_release_version
@@ -130,7 +132,8 @@ module "eks_blueprints" {
 
     mg_tainted = {
       node_group_name = "managed-ondemand-tainted"
-      instance_types  = ["t3.medium"]
+      capacity_type   = "SPOT"
+      instance_types  = ["t3.large"]
       subnet_ids      = local.private_subnet_ids
       min_size        = 0
       max_size        = 1

@@ -16,12 +16,11 @@ terraform {
 }
 
 provider "aws" {
-  region = var.region
-  alias  = "default"
+  region = "us-east-2"
 
-  default_tags {
-    tags = local.tags
-  }
+  # default_tags {
+  #   tags = local.tags
+  # }
 }
 
 module "cluster" {
@@ -44,7 +43,7 @@ module "cluster" {
 }
 
 data "aws_caller_identity" "current" {}
-# data "aws_region" "current" {}
+data "aws_region" "current" {}
 
 locals {
   tags = {

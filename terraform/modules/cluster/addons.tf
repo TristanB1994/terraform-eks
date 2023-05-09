@@ -36,7 +36,7 @@ module "eks_blueprints_kubernetes_addons" {
   enable_aws_load_balancer_controller    = true
   enable_cluster_autoscaler              = true
   enable_metrics_server                  = true
-  enable_kubecost                        = true
+  enable_kubecost                        = false
   enable_amazon_eks_adot                 = false
   enable_aws_efs_csi_driver              = false
   enable_aws_for_fluentbit               = false
@@ -477,7 +477,7 @@ locals {
     aws_caller_identity_arn        = data.aws_caller_identity.current.arn
     aws_eks_cluster_endpoint       = data.aws_eks_cluster.cluster.endpoint
     aws_partition_id               = data.aws_partition.current.partition
-    aws_region_name                = var.region
+    aws_region_name                = data.aws_region.current.id
     eks_cluster_id                 = module.eks_blueprints.eks_cluster_id
     eks_oidc_issuer_url            = local.oidc_url
     eks_oidc_provider_arn          = "arn:${data.aws_partition.current.partition}:iam::${local.aws_account_id}:oidc-provider/${local.oidc_url}"
@@ -498,12 +498,11 @@ locals {
     },
     {
       name  = "tolerations[0].operator"
-      value = "Exists"
-      type  = "string"
-    },
-    {
-      name  = "tolerations[0].effect"
-      value = "NoSchedule"
+      value = "Exists"      
+      min_size        = 1
+      max_size        = 2
+      desired_size    = 1
+
       type  = "string"
   }]
 }
@@ -522,7 +521,7 @@ module "eks_blueprints_kubernetes_grafana_addon" {
   ]
 
   helm_config = {
-    values = [templatefile("${path.module}/templates/grafana.yaml", { prometheus_endpoint = aws_prometheus_workspace.this.prometheus_endpoint, region = var.region })]
+    values = [templatefile("${path.module}/templates/grafana.yaml", { prometheus_endpoint = aws_prometheus_workspace.this.prometheus_endpoint, region = data.aws_region.current.id })]
   }
 }
 

@@ -32,7 +32,7 @@ module "ec2" {
     },
     {
       name  = "aws.region"
-      value = var.region
+      value = data.aws_region.current.id
     }
   ]
 

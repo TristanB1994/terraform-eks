@@ -1,7 +1,7 @@
 locals {
   environment_variables = <<EOT
 AWS_ACCOUNT_ID=${data.aws_caller_identity.current.account_id}
-AWS_DEFAULT_REGION=${var.region}
+AWS_DEFAULT_REGION=${data.aws_region.current.id}
 EKS_CLUSTER_NAME=${try(module.cluster.eks_cluster_id, "")}
 EKS_DEFAULT_MNG_NAME=${try(split(":", module.cluster.eks_cluster_nodegroup_name)[1], "")}
 EKS_DEFAULT_MNG_MIN=${module.cluster.eks_cluster_nodegroup_size_min}
@@ -122,7 +122,7 @@ module "ide" {
       cluster_name = module.cluster.eks_cluster_id,
       cluster_arn  = module.cluster.eks_cluster_arn,
       nodegroup    = module.cluster.eks_cluster_nodegroup
-      region       = var.region
+      region       = data.aws_region.current.id
       account_id   = data.aws_caller_identity.current.account_id
     }))
   ]
